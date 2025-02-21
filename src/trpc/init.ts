@@ -6,9 +6,12 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import exp from 'constants';
 import { cache } from 'react';
 import superjson from "superjson";
+import { ratelimit } from '@/lib/ratelimit';
+
 
 export const createTRPCContext = cache(async () => {
  const { userId } = await auth();
+
  return {clerkUserId: userId};
 });
 
@@ -28,6 +31,7 @@ const t = initTRPC.context<Context>().create({
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
+
 export const protectedProcedure = t.procedure.use(async function isAuth(opts) {
   const { ctx } = opts;
   if(!ctx.clerkUserId){
@@ -40,6 +44,12 @@ export const protectedProcedure = t.procedure.use(async function isAuth(opts) {
     throw new TRPCError({code: "UNAUTHORIZED"});
   }
 
+  const {success} = await ratelimit.limit(user.id);
+  if(!success){
+    throw new TRPCError({
+      code: "TOO_MANY_REQUESTS"
+    });
+  }
   return opts.next({
     ctx:{
       ...ctx,
