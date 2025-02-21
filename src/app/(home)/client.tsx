@@ -5,14 +5,12 @@ import { useEffect } from "react"
 import { text } from "stream/consumers"
 
 export const  PageClient = () => {
-    const [data] = trpc.hello.useSuspenseQuery({
-        text: "JoeJoeJoe"
-    })
+    const [data] = trpc.categories.getMany.useSuspenseQuery();
 
  
     return(
         <div>
-          page client says {data.greeting}
+         {JSON.stringify(data)}
         </div>
     )
 }
