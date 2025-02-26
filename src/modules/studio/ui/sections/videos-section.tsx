@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import{ Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import Link from "next/link";
+import { VideoThumbnail } from "@/modules/videos/ui/components/video-thumbnail";
 export const VideoSection = () => {
     return(
         <Suspense fallback={<p>Loading...</p>}>
@@ -53,11 +54,15 @@ const VideoSectionSuspense = () => {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {videos.pages.flatMap( (page) => page.items).map( (videos) => (
-                            <Link href={`/studio/videos/${videos.id}`} key={videos.id} legacyBehavior>
+                        {videos.pages.flatMap( (page) => page.items).map( (video) => (
+                            <Link href={`/studio/videos/${video.id}`} key={video.id} legacyBehavior>
                                 <TableRow className="cursor-pointer">
                                     <TableCell>
-                                        {videos.title}
+                                        <div className="flex items-center gap-4">
+                                            <div className="relative aspect-video w-36 shrink-0">
+                                                <VideoThumbnail imageUrl={video.thumbnailUrl}/>
+                                            </div>
+                                        </div>
                                     </TableCell>
                                     <TableCell>
                                         visibility
