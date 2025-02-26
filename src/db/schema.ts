@@ -2,6 +2,7 @@
 import { Description } from "@radix-ui/react-toast";
 import { pgTable, uuid, text,timestamp,uniqueIndex} from "drizzle-orm/pg-core";
 import {relations} from "drizzle-orm";
+import { MuxUploaderStatus } from "@mux/mux-uploader-react";
 export const users = pgTable("users",{
     id: uuid("id").primaryKey().defaultRandom(),
     clerkId: text("clerk_id").unique().notNull(),
@@ -35,6 +36,12 @@ export const videos = pgTable("videos",{
     id: uuid("id").primaryKey().defaultRandom(),
     title: text("title").notNull(),
     description: text("description"),
+    muxStatus: text("mux_status"), //check uploading status
+    muxAssetId: text("mux_asset_id").unique(),
+    muxUploadId: text("mux_upload_id").unique(),
+    muxPlaybackId: text("mux_playback_id").unique(), //used for thumbnails
+    muxTrackId: text("mux_track_id").unique(), //used fro subtitle
+    muxTrackStatus: text("mux_track_status"),
     userId: uuid("user_id").references( () => users.id,{
         onDelete: "cascade",
     }).notNull(),

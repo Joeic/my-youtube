@@ -22,7 +22,10 @@ export const videosRouter = createTRPCRouter({
 
         console.log("user id" , userId);
         const [video] = await db.insert(videos).values({
-            userId, title: "Untitled",        
+            userId, 
+            title: "Untitled",   
+            muxStatus: "waiting",
+            muxUploadId: upload.id,     
         }).returning();
         console.log("video", video)
         return { 
