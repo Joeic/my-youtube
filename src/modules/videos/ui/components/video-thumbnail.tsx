@@ -23,7 +23,7 @@ export const VideoThumbnail = ({imageUrl,title,previewUrl,duration} : VideoThumb
                         src={previewUrl ?? "/placeholder.png"} 
                         alt={title}
                         fill 
-                        unoptimized
+                        unoptimized={!!previewUrl}
                         className="h-full w-full object-cover opacity-0 group-hover:opacity-100"  
                     />
 
