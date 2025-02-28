@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/trpc/client";
-import { CopyCheckIcon, CopyIcon, icons, MoreVerticalIcon, TrashIcon, VideoIcon } from "lucide-react";
+import { CopyCheckIcon, CopyIcon, Globe2Icon, icons, LockIcon, MoreVerticalIcon, TrashIcon, VideoIcon } from "lucide-react";
 import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
@@ -249,6 +249,42 @@ const FormSectionSuspense = ({videoId} : ForSectionProps) => {
                                 </div>
                             </div>
                         </div>
+
+                        <FormField 
+                            control={form.control}
+                            name="visibility"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>
+                                        Visibility
+                                    </FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value ?? undefined}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select a visibility" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="public">
+                                            <div className="flex items-center">
+                                                <Globe2Icon className="size-4 mr-2"/>
+                                                Public
+                                            </div>
+                                            </SelectItem>
+                                            <SelectItem value="private">
+                                                <div className="flex items-center">
+                                                    <LockIcon className="size-4 mr-2"/>
+                                                    Private
+                                                </div>
+                                                
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
                     </div>
                 </div>
             </form>
