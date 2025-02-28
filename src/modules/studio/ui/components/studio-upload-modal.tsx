@@ -6,7 +6,6 @@ import { trpc } from "@/trpc/client";
 import { toast } from "sonner";
 import { ResponsiveModal } from "@/components/responsive-dialog";
 import { StudioUploader } from "./studio-uploader";
-import { useReducer } from "react";
 import { useRouter } from "next/navigation";
 
 export const StudioUploadModal = () => {

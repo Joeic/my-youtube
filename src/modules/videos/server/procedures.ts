@@ -9,6 +9,27 @@ import { mux } from "@/lib/mux";
 import { title } from "process";
 
 export const videosRouter = createTRPCRouter({
+    remove: protectedProcedure.input(
+        z.object({id: z.string().uuid() })
+    ).mutation(async ({ctx, input}) => {
+
+        const {id: UserId} = ctx.user;
+        const [removedVideo] = await db
+            .delete(videos)
+            .where(and(
+                eq(videos.id, input.id),
+                eq(videos.userId, UserId)
+            ))
+            .returning();
+        
+        if(!removedVideo){
+            throw new TRPCError({code: "NOT_FOUND"});
+        }
+
+        return removedVideo;
+       
+    }),
+
     update: protectedProcedure 
             .input(videoUpdateSchema)
             .mutation(async ({ctx,input}) => {
@@ -34,6 +55,7 @@ export const videosRouter = createTRPCRouter({
                 if(!updatedVideo){
                     throw new TRPCError({code: "NOT_FOUND"});
                 }
+                return updatedVideo;
             }),
     create: protectedProcedure.mutation(async ({ctx}) => {
         const {id: userId} = ctx.user;
