@@ -3,6 +3,12 @@ import { Description } from "@radix-ui/react-toast";
 import { pgTable, uuid, text,timestamp,uniqueIndex, integer, pgEnum} from "drizzle-orm/pg-core";
 import {relations} from "drizzle-orm";
 import { MuxUploaderStatus } from "@mux/mux-uploader-react";
+import{
+    createInsertSchema,
+    createSelectSchema,
+    createUpdateSchema,
+} from "drizzle-zod"
+
 export const users = pgTable("users",{
     id: uuid("id").primaryKey().defaultRandom(),
     clerkId: text("clerk_id").unique().notNull(),

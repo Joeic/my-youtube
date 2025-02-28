@@ -11,6 +11,26 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
     } from "@/components/ui/dropdown-menu"
+import { useForm} from "react-hook-form";
+import {zodResolver } from "@hookform/resolvers/zod"
+import { Input  } from "@/components/ui/input";
+import { Textarea} from "@/components/ui/textarea"
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormLabel,
+    FormMessage,
+    FormItem,
+} from "@/components/ui/form"
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from "@/components/ui/select"
+
 
 interface ForSectionProps {
     videoId: string;
@@ -46,7 +66,7 @@ const FormSectionSuspense = ({videoId} : ForSectionProps) => {
                             <MoreVerticalIcon />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
+                    <DropdownMenuContent align="end" side="left">
                         <DropdownMenuItem>
                             <TrashIcon className="size-4 mr-2"/>
                             Delete
