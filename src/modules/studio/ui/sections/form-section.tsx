@@ -33,6 +33,7 @@ import {
 import {z} from "zod";
 import { videoUpdateSchema } from "@/db/schema";
 import { toast } from "sonner";
+import { VideoPlayer } from "@/modules/videos/ui/components/video-player";
 
 interface ForSectionProps {
     videoId: string;
@@ -56,6 +57,7 @@ const FormSectionSuspense = ({videoId} : ForSectionProps) => {
         onSuccess: () => {
             utils.studio.getMany.invalidate();
             utils.studio.getOne.invalidate({id: videoId});
+            toast.success("Video updated");
         },
         onError: () => {
            toast.error("something went wrong");
@@ -78,7 +80,7 @@ const FormSectionSuspense = ({videoId} : ForSectionProps) => {
 
             <form onSubmit={form.handleSubmit(onSubmit)}>
                 <div className="flex items-center justify-between mb-6">
-                <div>
+                    <div>
                         <h1 className="text-2xl font-bold">
                             Video Details
                         </h1>
@@ -176,7 +178,16 @@ const FormSectionSuspense = ({videoId} : ForSectionProps) => {
                             )}
                         />
                     </div>
-                    
+                    <div className="flex flex-col gap-y-8 lg:col-span-2">
+                        <div className="flex flex-col gap-4 bg-[#F9F9F9] rounded-xl overflow-hidden h-fit">
+                            <div className="aspect-video overflow-hidden relative">
+                                <VideoPlayer 
+                                playbackId={video.muxPlaybackId} 
+                                thumbnailUrl={video.thumbnailUrl}
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </Form>
