@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/select"
 import {z} from "zod";
 import { videoUpdateSchema } from "@/db/schema";
+import { toast } from "sonner";
 
 interface ForSectionProps {
     videoId: string;
@@ -49,6 +50,18 @@ export const FormSection = ({videoId}: ForSectionProps) => {
 const FormSectionSuspense = ({videoId} : ForSectionProps) => {
     const [video] = trpc.studio.getOne.useSuspenseQuery({id: videoId});
     const [categories] = trpc.categories.getMany.useSuspenseQuery();
+    const utils = trpc.useUtils();
+
+    const update = trpc.videos.update.useMutation({
+        onSuccess: () => {
+            utils.studio.getMany.invalidate();
+            utils.studio.getOne.invalidate({id: videoId});
+        },
+        onError: () => {
+           toast.error("something went wrong");
+            
+        }
+    });
 
     const form = useForm<z.infer<typeof videoUpdateSchema>>({
         resolver: zodResolver(videoUpdateSchema),
@@ -56,8 +69,9 @@ const FormSectionSuspense = ({videoId} : ForSectionProps) => {
     });
 
     const onSubmit = async (data: z.infer<typeof videoUpdateSchema>) => {
-        console.log(data);
+        update.mutate(data);
     }
+
 
     return(
         <Form {...form}>
@@ -72,7 +86,7 @@ const FormSectionSuspense = ({videoId} : ForSectionProps) => {
                     </div>
 
                     <div className="flex items-center gap-x-2">
-                        <Button type="submit" disabled={false}>
+                        <Button type="submit" disabled={update.isPending}>
                             Save
                         </Button>
                         <DropdownMenu>
