@@ -13,6 +13,8 @@ interface StudioUploaderProps {
 };
 
 const UPLOADER_ID = "video_uploader"
+
+
 export const StudioUploader = ({
     endpoint,
     onSuccess,

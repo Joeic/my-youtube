@@ -37,11 +37,11 @@ import { VideoPlayer } from "@/modules/videos/ui/components/video-player";
 import Link from "next/link";
 import { snakeCaseToTitle } from "@/lib/utils";
 
-interface ForSectionProps {
+interface FormSectionProps {
     videoId: string;
 }
 
-export const FormSection = ({videoId}: ForSectionProps) => {
+export const FormSection = ({videoId}: FormSectionProps) => {
     return(
         <Suspense fallback={<FormSectionSkeleton />}>
             <ErrorBoundary fallback={<p>Error</p>}>
@@ -50,7 +50,7 @@ export const FormSection = ({videoId}: ForSectionProps) => {
         </Suspense>
     )
 }
-const FormSectionSuspense = ({videoId} : ForSectionProps) => {
+const FormSectionSuspense = ({videoId} : FormSectionProps) => {
     const [video] = trpc.studio.getOne.useSuspenseQuery({id: videoId});
     const [categories] = trpc.categories.getMany.useSuspenseQuery();
     const utils = trpc.useUtils();
