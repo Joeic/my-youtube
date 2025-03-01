@@ -195,6 +195,17 @@ const FormSectionSuspense = ({videoId} : FormSectionProps) => {
                                             fill
                                             alt="Thumbnail"
                                            />
+                                           <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button
+                                                        type="button"
+                                                        size="icon"
+                                                        className="bg-black/50 hover:bg-black/50 absolute top-1 right-1"
+                                                    >
+                                                        <MoreVerticalIcon className="text-white"/>
+                                                    </Button>
+                                                </DropdownMenuTrigger>
+                                           </DropdownMenu>
                                         </div>
                                     </FormControl>
                                 </FormItem>
