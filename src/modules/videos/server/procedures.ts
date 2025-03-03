@@ -8,8 +8,22 @@ import { TRPCError } from "@trpc/server";
 import { mux } from "@/lib/mux";
 import { title } from "process";
 import { UTApi } from "uploadthing/server";
+import { workflow } from "@/lib/workflow";
 
 export const videosRouter = createTRPCRouter({
+    generateThumbnail: protectedProcedure
+    .mutation( async ({ctx}) => {
+        const {id: userId} = ctx.user;
+
+        const {workflowRunId} = await workflow.trigger({
+            
+
+            url: `${process.env.UPSTASH_WORKFLOW_URL}/api/videos/workflows/title`,
+            body: "a body",
+          
+        })
+        return workflowRunId;
+    }),
     restoreThumbnail: protectedProcedure
                         .input(z.object({
                             id: z.string().uuid()
