@@ -54,7 +54,9 @@ export const videos = pgTable("videos",{
     muxTrackId: text("mux_track_id").unique(), //used fro subtitle
     muxTrackStatus: text("mux_track_status"),
     thumbnailUrl: text("thumbnail_url"),
+    thumbnailKey: text("thumbnail_key"),
     previewUrl: text("preview_uri"),
+    previewUKey: text("preview_key"),
     duration: integer("duration").default(0).notNull(),
     visibility: videoVisibility("visibility").default("private").notNull(),
     userId: uuid("user_id").references( () => users.id,{
