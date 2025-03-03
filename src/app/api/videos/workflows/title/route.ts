@@ -34,6 +34,18 @@ export const { POST } = serve(
         return existingVideo;
     })
 
+    const transcript = await context.run("get-transcript", async () => {
+        const trackUrl = `https://stream.mux.com/${video.muxPlaybackId}/text/${video.muxTrackId}.txt`;
+        const response = await fetch(trackUrl);
+        const text = response.text();
+
+        if(!text){
+            throw new Error("Bad request");
+        }
+
+        return text;
+    })
+
     console.log({video: video});
 
     const {body} = await context.api.openai.call(
@@ -50,18 +62,22 @@ export const { POST } = serve(
               },
               {
                 role: "user",
-                content: "Hi! tell me what you can do for me"
+                content: transcript
               }
             ],
           },
         }
       );
       
-      const title = body.choices[0]?.message.content;
-      
+     
+    const title = body.choices[0]?.message.content;
+    if(!title){
+       throw new Error("Bad request");
+    }   
 
 
     await context.run("update-video", async () => {
+        
         await db
             .update(videos)
             .set({
