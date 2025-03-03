@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { trpc } from "@/trpc/client";
-import { CopyCheckIcon, CopyIcon, Globe2Icon, icons, ImagePlayIcon, LockIcon, MoreVerticalIcon, RotateCcwIcon, SparkleIcon, TrashIcon, VideoIcon } from "lucide-react";
+import { CopyCheckIcon, CopyIcon, Globe2Icon, icons, ImagePlayIcon, Loader2Icon, LockIcon, MoreVerticalIcon, RotateCcwIcon, SparkleIcon, TrashIcon, VideoIcon } from "lucide-react";
 import { Suspense, useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import {
@@ -133,6 +133,17 @@ const FormSectionSuspense = ({videoId} : FormSectionProps) => {
         }
     });
 
+    const generateTitle = trpc.videos.generateThumbnail.useMutation({
+        onSuccess: () => {
+         
+            toast.success("Background job started", {description: "This takes some time"});
+        },
+        onError: () => {
+           toast.error("something went wrong");
+            
+        }
+    });
+
 
     return(
         <>
@@ -179,7 +190,23 @@ const FormSectionSuspense = ({videoId} : FormSectionProps) => {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormLabel>
-                                            Title
+                                            <div className="flex items-center gap-x-2">
+                                                Title
+                                                <Button
+                                                    size="icon"
+                                                    variant="outline"
+                                                    type="button"
+                                                    className="rounded-full size-6 [&_svg]:size-3"
+                                                    onClick={() => generateTitle.mutate({id:videoId})}
+                                                    disabled={generateTitle.isPending}
+                                                >
+                                                    {generateTitle.isPending
+                                                    ? <Loader2Icon className="animate-spin" />
+                                                    : <SparkleIcon />
+                                                    }   
+                                                </Button>
+                                            </div>
+                                           
                                         </FormLabel>
                                         <FormControl>
                                             <Input
@@ -197,7 +224,22 @@ const FormSectionSuspense = ({videoId} : FormSectionProps) => {
                                 render={({field}) => (
                                     <FormItem>
                                         <FormLabel>
-                                            Description
+                                        <div className="flex items-center gap-x-2">
+                                                Description
+                                                <Button
+                                                    size="icon"
+                                                    variant="outline"
+                                                    type="button"
+                                                    className="rounded-full size-6 [&_svg]:size-3"
+                                                    onClick={() => generateTitle.mutate({id:videoId})}
+                                                    disabled={generateTitle.isPending}
+                                                >
+                                                    {generateTitle.isPending
+                                                    ? <Loader2Icon className="animate-spin" />
+                                                    : <SparkleIcon />
+                                                    }   
+                                                </Button>
+                                            </div>
                                         </FormLabel>
                                         <FormControl>
                                             <Textarea
