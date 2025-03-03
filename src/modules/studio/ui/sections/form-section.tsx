@@ -136,7 +136,18 @@ const FormSectionSuspense = ({videoId} : FormSectionProps) => {
     const generateTitle = trpc.videos.generateThumbnail.useMutation({
         onSuccess: () => {
          
-            toast.success("Background job started", {description: "This takes some time"});
+            toast.success("processing generating title", {description: "This takes some time"});
+        },
+        onError: () => {
+           toast.error("something went wrong");
+            
+        }
+    });
+
+    const generateDescription = trpc.videos.generateDescription.useMutation({
+        onSuccess: () => {
+         
+            toast.success("processing generating description", {description: "This takes some time"});
         },
         onError: () => {
            toast.error("something went wrong");
@@ -231,10 +242,10 @@ const FormSectionSuspense = ({videoId} : FormSectionProps) => {
                                                     variant="outline"
                                                     type="button"
                                                     className="rounded-full size-6 [&_svg]:size-3"
-                                                    onClick={() => generateTitle.mutate({id:videoId})}
-                                                    disabled={generateTitle.isPending}
+                                                    onClick={() => generateDescription.mutate({id:videoId})}
+                                                    disabled={generateDescription.isPending}
                                                 >
-                                                    {generateTitle.isPending
+                                                    {generateDescription.isPending
                                                     ? <Loader2Icon className="animate-spin" />
                                                     : <SparkleIcon />
                                                     }   
