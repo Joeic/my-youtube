@@ -56,14 +56,15 @@ export const { POST } = serve(
 
     await context.run("cleanup-thumbnail", async () =>{
         if(video.thumbnailKey){
-            await utapi.deleteFiles(video.thumbnailKey);
+            const deleteResponse =  await utapi.deleteFiles(video.thumbnailKey);
             await db
                 .update(videos)
                 .set({thumbnailKey: null, thumbnailUrl: null})
                 .where(and(
                     eq(videos.id, videoId),
                     eq(videos.userId, userId)
-                ))
+                ));
+            console.log("Delete Response:", deleteResponse);
         }
     });
 
