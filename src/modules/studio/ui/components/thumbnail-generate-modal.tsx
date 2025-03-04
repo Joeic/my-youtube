@@ -91,6 +91,7 @@ const form = useForm<z.infer<typeof FormSehema>>({
 
                 <div className="flex justify-end">
                     <Button
+                        disabled={generateThumbnail.isPending}
                         type="submit"
                     >
                         Generate
