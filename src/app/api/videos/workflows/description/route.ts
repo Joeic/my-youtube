@@ -19,6 +19,7 @@ export const { POST } = serve(
   async (context) => {
     const input = context.requestPayload as InputType;
     const {videoId, userId} = input;
+    
     const video = await context.run("get-video", async() => {
         const [existingVideo] = await db
                         .select()
