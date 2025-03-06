@@ -20,11 +20,14 @@ export const VideoOwner = ({user, videoId}:
             <Link href={`/users/${user.id}`}>
                 <div className="flex items-center gap-3 min-w-0">
                     <UserAvatar size="lg" imageUrl={user.imageUrl} name={user.name} />
-                    <UserInfo size="lg" name={user.name} />
-                    <span className="text-sm text-muted-foreground line-clamp-1">
-                        {/** TODO: fill subscribers */}
-                        {0} subscribers
-                    </span>
+                    <div className="flex flex-col gap-1 min-w-0">
+                        <UserInfo size="lg" name={user.name} />
+                        <span className="text-sm text-muted-foreground line-clamp-1">
+                            {/** TODO: fill subscribers */}
+                            {0} subscribers
+                        </span>
+                    </div>
+                   
                 </div>
             </Link>
             {clerkUserId === user.clerkId ? (
