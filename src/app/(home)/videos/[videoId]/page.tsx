@@ -1,4 +1,4 @@
-import { VideoView } from "@/modules/videos/views/video-view";
+import { VideoView } from "@/modules/videos/ui/views/video-view";
 import { trpc } from "@/trpc/server";
 
 interface PageProps{

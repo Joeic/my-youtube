@@ -4,9 +4,9 @@ import { cn } from "@/lib/utils";
 import { trpc } from "@/trpc/client";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { VideoPlayer } from "../ui/components/video-player";
-import { VideoBanner } from "../ui/components/video-banner";
-import { VideoTopRow } from "../ui/components/video-top-row";
+import { VideoPlayer } from "../components/video-player";
+import { VideoBanner } from "../components/video-banner";
+import { VideoTopRow } from "../components/video-top-row";
 
 interface VideoSectionProps{
     videoId: string;
