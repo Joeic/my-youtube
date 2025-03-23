@@ -11,6 +11,7 @@ import { ratelimit } from '@/lib/ratelimit';
 
 export const createTRPCContext = cache(async () => {
  const { userId } = await auth();
+ console.log("Current user in context:", userId);
 
  return {clerkUserId: userId};
 });
@@ -32,14 +33,25 @@ export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
 export const baseProcedure = t.procedure;
 
+
 export const protectedProcedure = t.procedure.use(async function isAuth(opts) {
   const { ctx } = opts;
+  console.log("ctx is " , ctx);
   if(!ctx.clerkUserId){
     throw new TRPCError({code: "UNAUTHORIZED"});
   }
 
-  const [user] = await db.select().from(users).where(eq(users.clerkId, ctx.clerkUserId)).limit(1);
-
+  let user;
+  let retries = 3; 
+  while (retries > 0) {
+    [user] = await db.select().from(users).where(eq(users.clerkId, ctx.clerkUserId)).limit(1);
+    if (user) {
+      break;
+    }
+    retries--;
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+  console.log("get user from db", user);
   if(!user){
     throw new TRPCError({code: "UNAUTHORIZED"});
   }
