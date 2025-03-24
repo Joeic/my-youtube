@@ -1,8 +1,8 @@
 import { db } from "@/db";
-import { users, videoReactions, videos, videoUpdateSchema, videoViews } from "@/db/schema";
+import { subscriptions, users, videoReactions, videos, videoUpdateSchema, videoViews } from "@/db/schema";
 import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import {z} from "zod";
-import {eq, and, or,lt,desc, getTableColumns, inArray} from "drizzle-orm";
+import {eq, and, or,lt,desc, getTableColumns, inArray, isNotNull} from "drizzle-orm";
 import { useId } from "react";
 import { TRPCError } from "@trpc/server";
 import { mux } from "@/lib/mux";
@@ -31,12 +31,18 @@ export const videosRouter = createTRPCRouter({
             .from(videoReactions)
             .where(inArray(videoReactions.userId, userId ? [userId]: []))
         );
+
+        const viewerSubscriptions = await db.$with("viewer_subscriptions").as(
+            db.select().from(subscriptions).where(inArray(subscriptions.viewerId, userId ? [userId] : []))
+        );
         const [existingVideo] = await db
-                                .with(viewerReactions)
+                                .with(viewerReactions, viewerSubscriptions)
                                 .select({
                                    ...getTableColumns(videos),
                                    user:{
                                     ...getTableColumns(users),
+                                    subscriberCount: db.$count(subscriptions, eq(subscriptions.creatorId, users.id)), // number of rows that has the creatorId is this video's creator
+                                    viewerSubscribed: isNotNull(viewerSubscriptions.viewerId).mapWith(Boolean),
                                    },
                                    viewCount:db.$count(videoViews, eq(videoViews.videoId, videos.id)),
                                    likeCount: db.$count(
@@ -58,6 +64,7 @@ export const videosRouter = createTRPCRouter({
                                 .from(videos)
                                 .innerJoin(users, eq(videos.userId, users.id))
                                 .leftJoin(viewerReactions, eq(viewerReactions.videoId, videos.id))
+                                .leftJoin(viewerSubscriptions, eq(viewerSubscriptions.creatorId, users.id))
                                 .where(eq(videos.id, input.id))
                                 
         if(!existingVideo){
