@@ -1,5 +1,6 @@
 "use client"
 
+import { CommentForm } from "@/modules/comments/ui/components/comments-form";
 import { trpc } from "@/trpc/client"
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
@@ -22,8 +23,14 @@ export const CommentsSectionSuspense = ({videoId}:CommentsSectionProps) =>{
 
     const [comments] = trpc.comments.getMany.useSuspenseQuery({videoId});
     return(
-        <div>
-            {JSON.stringify(comments)}
+        <div className="mt-6">
+           <div className="flex flex-col gap-6">
+                <h1>
+                    0 comments
+                </h1>
+                <CommentForm videoId={videoId}/>
+           </div>
+
         </div>
     )
 }
