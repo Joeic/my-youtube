@@ -29,7 +29,9 @@ export const CommentsSectionSuspense = ({videoId}:CommentsSectionProps) =>{
                     0 comments
                 </h1>
                 <CommentForm videoId={videoId}/>
+                {JSON.stringify(comments)}
            </div>
+           
 
         </div>
     )
