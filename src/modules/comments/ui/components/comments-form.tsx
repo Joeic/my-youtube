@@ -17,7 +17,7 @@ export const CommentForm = ({
       <form className="flex gap-4 group">
         <UserAvatar
             size="lg"
-            imageUrl={user?.imageUrl || "/placeholder.png"}
+            imageUrl={user?.imageUrl || "/user-placeholder.png"}
             name={user?.username || "User"} 
         />
         <div className="flex-1">
