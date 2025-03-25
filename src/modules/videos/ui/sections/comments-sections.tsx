@@ -10,6 +10,8 @@ import { CommentItem } from "@/modules/comments/ui/components/comments-item";
 import { DEFAULT_LIMIT } from "@/constans";
 import { InfiniteScroll } from "@/components/infinite-scroll";
 import { Loader2Icon } from "lucide-react";
+
+
 interface CommentsSectionProps{
     videoId: string;
 };

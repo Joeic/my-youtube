@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { comments, commentsInsertSchema, users, videos } from "@/db/schema";
 import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init";
+import { TRPCError } from "@trpc/server";
 import {desc, eq, and, getTableColumns, or, lt, count} from "drizzle-orm";
 import { z } from "zod";
 
@@ -22,6 +23,30 @@ export const commentsRouter = createTRPCRouter({
                 .returning();
             return createdComments;
         }),
+
+    remove: protectedProcedure
+        .input(
+            z.object({
+                id: z.string().uuid(),
+            })
+        )
+        .mutation(async ({input, ctx}) =>{
+            const {id} = input;
+            const {id: userId} = ctx.user;
+        
+            const [deletedComments] = await db
+                .delete(comments)
+                .where(and(
+                    eq(comments.userId, userId),
+                    eq(comments.id, id),
+                )).returning();
+
+            if(!deletedComments){
+                throw new TRPCError({code: "NOT_FOUND"});
+            }
+            return deletedComments;
+        }),
+    
 
     getMany: baseProcedure
         .input(
