@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { commentReactions, videoReactions} from "@/db/schema";
+import { commentReactions} from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { eq, and} from "drizzle-orm";
 import { abort } from "process";
@@ -18,8 +18,8 @@ export const commentReactionsRouter = createTRPCRouter({
                 .where(
                     and(
                         eq(commentReactions.commentId, commentId),
-                        eq(videoReactions.userId, userId),
-                        eq(videoReactions.type, "like"),
+                        eq(commentReactions.userId, userId),
+                        eq(commentReactions.type, "like"),
                     )
                 );
             if(existingCommentReactionsLike){

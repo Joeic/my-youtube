@@ -40,6 +40,34 @@ export const CommentItem = ( {
             }
         }
     });
+
+    const like = trpc.commentReactions.like.useMutation({
+        onSuccess: () => {
+            utils.comments.getMany.invalidate({videoId: comment.videoId});
+        },
+        onError: (error) => {
+            toast.error("Something went wrong");
+            console.error("LIKE ERROR:", error);
+            if(error.data?.code === "UNAUTHORIZED"){
+                clerk.openSignIn();
+            }
+        }
+    });
+
+    const dislike = trpc.commentReactions.dislike.useMutation({
+        onSuccess: () => {
+            utils.comments.getMany.invalidate({videoId: comment.videoId});
+        },
+        onError: (error) => {
+            toast.error("Something went wrong");
+            console.error("DISLIKE ERROR:", error);
+            if(error.data?.code === "UNAUTHORIZED"){
+                clerk.openSignIn();
+            }
+        }
+    });
+
+
     return(
         <div>
             <div className="flex gap-4">
@@ -73,9 +101,9 @@ export const CommentItem = ( {
                             <Button
                                 className="size-8"
                                 variant="ghost"
-                                disabled={false}
+                                disabled={like.isPending}
                                 size="icon"
-                                onClick={() => {}}
+                                onClick={() => like.mutate({commentId: comment.id})}
                             >
                                 <ThumbsUpIcon className={cn(
                                     comment.viewerReaction === "like" && "fill-black"
@@ -85,9 +113,9 @@ export const CommentItem = ( {
                             <Button
                                 className="size-8"
                                 variant="ghost"
-                                disabled={false}
+                                disabled={dislike.isPending}
                                 size="icon"
-                                onClick={() => {}}
+                                onClick={() => dislike.mutate({commentId: comment.id})}
                             >
                                 <ThumbsDownIcon className={cn(
                                     comment.viewerReaction === "dislike" && "fill-black"
