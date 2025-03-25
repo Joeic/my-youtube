@@ -79,7 +79,7 @@ export const CommentItem = ( {
                             >
                                 <ThumbsUpIcon className={cn()}/>
                             </Button>
-                            <span className="text-xs text-muted-foreground">0</span>
+                            <span className="text-xs text-muted-foreground">{comment.likeCount}</span>
                             <Button
                                 className="size-8"
                                 variant="ghost"
@@ -89,7 +89,7 @@ export const CommentItem = ( {
                             >
                                 <ThumbsDownIcon className={cn()}/>
                             </Button>
-                            <span className="text-xs text-muted-foreground">0</span>
+                            <span className="text-xs text-muted-foreground">{comment.dislikeCount}</span>
                         </div>
                     </div>
                 </div>
