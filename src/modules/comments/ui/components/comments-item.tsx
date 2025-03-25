@@ -47,7 +47,6 @@ export const CommentItem = ( {
         },
         onError: (error) => {
             toast.error("Something went wrong");
-            console.error("LIKE ERROR:", error);
             if(error.data?.code === "UNAUTHORIZED"){
                 clerk.openSignIn();
             }
@@ -60,7 +59,6 @@ export const CommentItem = ( {
         },
         onError: (error) => {
             toast.error("Something went wrong");
-            console.error("DISLIKE ERROR:", error);
             if(error.data?.code === "UNAUTHORIZED"){
                 clerk.openSignIn();
             }
