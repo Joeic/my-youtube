@@ -181,6 +181,13 @@ export const CommentItem = ( {
                     />
                 </div>   
             )}
+            {comment.replyCount > 0 && variant === "comment" && (
+                <div>
+                    <Button>
+                        {comment.replyCount} replies
+                    </Button>
+                </div>
+            )}
         </div>
     )
 }
