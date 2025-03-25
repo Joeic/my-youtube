@@ -11,9 +11,10 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button";
-import { MessageSquareIcon, MoreVerticalIcon, Trash2Icon } from "lucide-react";
+import { MessageSquareIcon, MoreVerticalIcon, ThumbsDownIcon, ThumbsUp, ThumbsUpIcon, Trash2Icon } from "lucide-react";
 import { useAuth, useClerk } from "@clerk/nextjs";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 
 
@@ -67,6 +68,30 @@ export const CommentItem = ( {
                     <p className="text-sm">
                         {comment.value}
                     </p>
+                    <div className="flex items-center gap-2 mt-1">
+                        <div className="flex items-center">
+                            <Button
+                                className="size-8"
+                                variant="ghost"
+                                disabled={false}
+                                size="icon"
+                                onClick={() => {}}
+                            >
+                                <ThumbsUpIcon className={cn()}/>
+                            </Button>
+                            <span className="text-xs text-muted-foreground">0</span>
+                            <Button
+                                className="size-8"
+                                variant="ghost"
+                                disabled={false}
+                                size="icon"
+                                onClick={() => {}}
+                            >
+                                <ThumbsDownIcon className={cn()}/>
+                            </Button>
+                            <span className="text-xs text-muted-foreground">0</span>
+                        </div>
+                    </div>
                 </div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
