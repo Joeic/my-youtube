@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { CommentForm } from "./comments-form";
+import { CommentReplies } from "./comment-replies";
 
 
 
@@ -79,7 +80,7 @@ export const CommentItem = ( {
             <div className="flex gap-4">
                 <Link href={`/users/${comment.userId}`}>
                 <UserAvatar
-                    size="lg"
+                    size={variant === "comment" ? "lg" : "sm"}
                     imageUrl={comment.user.imageUrl}
                     name={comment.user.name || "User"}
                 />
@@ -186,11 +187,18 @@ export const CommentItem = ( {
                     <Button
                         size="sm"
                         onClick={() => setIsRepliesOpen( (current) => !current)}
+                        variant="tertiary"
                     >
                         {isRepliesOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
                         {comment.replyCount} replies
                     </Button>
                 </div>
+            )}
+            {comment.replyCount > 0 && variant === "comment" && isRepliesOpen && (
+                <CommentReplies
+                    parentId={comment.id}
+                    videoId={comment.videoId}
+                />
             )}
         </div>
     )
