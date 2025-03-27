@@ -10,6 +10,7 @@ import { VideoThumbnail } from "./video-thumbnail";
 import Link from "next/link";
 import { UserAvatar } from "@/components/user-avatar";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
+import { VideoMenu } from "./video-menu";
 
 const videoRowCardVariant = cva("group flex min-w-o",{
     variants:{
@@ -100,11 +101,24 @@ export const VideoRowCard = ({
                                     align="center"
                                     className="bg-black/70"
                                 >
+                                    From the video description
                                 </TooltipContent>
                             </Tooltip>
                         </>
                     )}
+                    {size === "compact" && (
+                        <UserInfo size="sm" name={data.user.name}/>
+                    )}
+                    {size === "compact" && (
+                        <p>
+                            {data.viewCount} views · {data.likeCount} likes
+                        </p>
+                    )}
                 </Link>
+                <div className="flex-none">
+                    <VideoMenu videoId={data.id} onRemove={onRemove} />
+
+                </div>
 
             </div>
 

@@ -142,7 +142,7 @@ export const CommentItem = ( {
                         )}
                     </div>
                 </div>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button
                             variant="ghost"
