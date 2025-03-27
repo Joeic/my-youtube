@@ -25,7 +25,7 @@ export const SuggestionsSection = ({videoId}: SuggestionsSectionProps) =>{
                 {suggestions.pages.flatMap( (page) => page.items.map( (video) => (
                     <VideoRowCard 
                     data={video}
-                    key={video.id}
+                    key={videoId}
                     size="compact"
                     />
                 )))}
@@ -34,7 +34,7 @@ export const SuggestionsSection = ({videoId}: SuggestionsSectionProps) =>{
                 {suggestions.pages.flatMap( (page) => page.items.map( (video) => (
                     <VideoGridCard 
                     data={video}
-                    key={video.id}
+                    key={videoId}
                     />
                 )))}
             </div>
