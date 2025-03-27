@@ -72,6 +72,11 @@ export const VideoRowCard = ({
                     )}>
                         {data.title}
                     </h3>
+                    {size === "default" && (
+                        <p>
+                            {data.viewCount} views · {data.likeCount} likes
+                        </p>
+                    )}
                 </Link>
 
             </div>
