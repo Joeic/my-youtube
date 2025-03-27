@@ -8,6 +8,8 @@ import{
 import { VideoGetManyOutput } from "../../types";
 import { VideoThumbnail } from "./video-thumbnail";
 import Link from "next/link";
+import { UserAvatar } from "@/components/user-avatar";
+import { UserInfo } from "@/modules/users/ui/components/user-info";
 
 const videoRowCardVariant = cva("group flex min-w-o",{
     variants:{
@@ -73,9 +75,34 @@ export const VideoRowCard = ({
                         {data.title}
                     </h3>
                     {size === "default" && (
-                        <p>
+                        <p className="text-xs text-muted-foreground mt-1">
                             {data.viewCount} views · {data.likeCount} likes
                         </p>
+                    )}
+                    {size === "default" && (
+                        <>
+                            <div className="flex items-center gap-2 my-3">
+                                <UserAvatar
+                                    size="sm"
+                                    imageUrl={data.user.imageUrl}
+                                    name={data.user.name} 
+                                />
+                                <UserInfo size="sm" name={data.user.name}/>
+                            </div>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <p className="text-sx text-muted-foreground w-fit line-clamp-2">
+                                        {data.description ?? "No description"}
+                                    </p>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                    side="bottom"
+                                    align="center"
+                                    className="bg-black/70"
+                                >
+                                </TooltipContent>
+                            </Tooltip>
+                        </>
                     )}
                 </Link>
 
