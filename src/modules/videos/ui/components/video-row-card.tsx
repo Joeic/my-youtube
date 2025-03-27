@@ -11,6 +11,7 @@ import Link from "next/link";
 import { UserAvatar } from "@/components/user-avatar";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
 import { VideoMenu } from "./video-menu";
+import { useMemo } from "react";
 
 const videoRowCardVariant = cva("group flex min-w-o",{
     variants:{
@@ -55,6 +56,18 @@ export const VideoRowCard = ({
     size,
     onRemove,
 }: VideoRowCardProps) => {
+    const compactViews = useMemo( () => {
+        return Intl.NumberFormat("en",{
+            notation: "compact",
+        }).format(data.viewCount);
+    },[data.viewCount]);
+
+    const compacLikes = useMemo( () => {
+        return Intl.NumberFormat("en",{
+            notation: "compact",
+        }).format(data.likeCount);
+    },[data.likeCount]);
+
     return(
         <div className={videoRowCardVariant({size})}>
             <Link href={`/videos/${data.id}`} className={thumbnailVariants({size})}>
@@ -77,7 +90,7 @@ export const VideoRowCard = ({
                     </h3>
                     {size === "default" && (
                         <p className="text-xs text-muted-foreground mt-1">
-                            {data.viewCount} views · {data.likeCount} likes
+                            {compactViews} views · {compacLikes} likes
                         </p>
                     )}
                     {size === "default" && (
@@ -110,8 +123,8 @@ export const VideoRowCard = ({
                         <UserInfo size="sm" name={data.user.name}/>
                     )}
                     {size === "compact" && (
-                        <p>
-                            {data.viewCount} views · {data.likeCount} likes
+                        <p className="text-xs text-muted-foreground mt-1">
+                            {compactViews} views · {compacLikes} likes
                         </p>
                     )}
                 </Link>

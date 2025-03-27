@@ -17,7 +17,7 @@ interface VideoMenuProps{
 // TODO: implment left
 export const VideoMenu = ({
     videoId,
-    variant,
+    variant = "ghost",
     onRemove,
 }: VideoMenuProps) => {
 

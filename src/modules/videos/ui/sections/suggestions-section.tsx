@@ -24,7 +24,7 @@ export const SuggestionsSection = ({videoId}: SuggestionsSectionProps) =>{
             <VideoRowCard 
             data={video}
             key={video.id}
-            size="default"
+            size="compact"
             />
            )))}
         </div>
