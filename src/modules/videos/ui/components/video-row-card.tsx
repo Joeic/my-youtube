@@ -12,6 +12,7 @@ import { UserAvatar } from "@/components/user-avatar";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
 import { VideoMenu } from "./video-menu";
 import { useMemo } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const videoRowCardVariant = cva("group flex min-w-o",{
     variants:{
@@ -45,7 +46,7 @@ interface VideoRowCardProps extends VariantProps<typeof videoRowCardVariant>{
 export const VideORowCardSkeleton = () => {
     return(
         <div>
-            Skelton
+            <Skeleton />
         </div>
     )
 
