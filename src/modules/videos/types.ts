@@ -10,3 +10,6 @@ export type VideoGetOneOutput =
     videos represents the videos route in AppRouter.
     getOne represents the getOne method under the videos route (used to get data for a single video) 
     */
+// TODO: change to videos getMany
+export type VideoGetManyOutput =
+    inferRouterOutputs<AppRouter>["suggestions"]["getMany"]; 
