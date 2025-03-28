@@ -1,6 +1,9 @@
 "use client"
 
 import { DEFAULT_LIMIT } from "@/constans";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { VideoGridCard } from "@/modules/videos/ui/components/video-grid-card";
+import { VideoRowCard } from "@/modules/videos/ui/components/video-row-card";
 import { trpc } from "@/trpc/client";
 
 interface ResultsSectionProps {
@@ -13,6 +16,8 @@ export const ResultsSection = ({
     categoryId,
 }: ResultsSectionProps) => {
 
+    const isMobile = useIsMobile();
+
     const [results, resultQuery] = trpc.search.getMany.useSuspenseInfiniteQuery({
         query,
         categoryId,
@@ -21,8 +26,23 @@ export const ResultsSection = ({
         getNextPageParam: (lastPage) => lastPage.nextCursor,
     });
     return(
-        <div>
-            {JSON.stringify(results)}
-        </div>
+        <>
+            {isMobile ? (
+                <div className="flex flex-col gap-4 gap-y-10">
+                    {results.pages.flatMap( (page) => page.items).map( (video) => (
+                        <VideoGridCard key={video.id} data={video} />
+                        ))
+                    }
+
+                </div>
+            ): (
+                <div className="flex flex-col gap-4">
+                    {results.pages.flatMap( (page) => page.items).map( (video) => (
+                        <VideoRowCard key={video.id} data={video} />
+                        ))
+                    }
+                </div>
+            )}
+        </>
     )
 }
