@@ -42,6 +42,7 @@ import { THUMBNAIL_FALLBACK } from "@/modules/videos/constants";
 import { ThumbnailUploadModel } from "../components/thumbnail-upload-modal";
 import { ThumbnailGenerateModel } from "../components/thumbnail-generate-modal";
 import { Skeleton } from "@/components/ui/skeleton";
+import { APP_URL } from "@/constans";
 
 interface FormSectionProps {
     videoId: string;
@@ -87,7 +88,7 @@ const FormSectionSuspense = ({videoId} : FormSectionProps) => {
     }
 
     //TODP: Change when depoly
-    const fullUrl = `${process.env.VERCEL_URL || "http://localhost:3000"}/videos/${videoId}`;
+    const fullUrl = `${APP_URL || "http://localhost:3000"}/videos/${videoId}`;
     const [isCopied, setIsCopied] = useState(false);
 
     const onCopy = async() => {
