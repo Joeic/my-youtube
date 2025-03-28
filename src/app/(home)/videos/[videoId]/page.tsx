@@ -2,6 +2,7 @@ import { DEFAULT_LIMIT } from "@/constans";
 import { VideoView } from "@/modules/videos/ui/views/video-view";
 import { trpc } from "@/trpc/server";
 
+export const dynamic = 'force-dynamic';
 interface PageProps{
     params: Promise<{
         videoId: string;
