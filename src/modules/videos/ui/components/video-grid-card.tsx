@@ -27,7 +27,7 @@ export const VideoGridCard = ({
             <Link
                 href={`/videos/${data.id}`}
             >
-                <VideoThumbnail imageUrl={data.thumbnailUrl} previewUrl={data.previewKey} title={data.title} duration={data.duration} />
+                <VideoThumbnail imageUrl={data.thumbnailUrl} previewUrl={data.previewUrl} title={data.title} duration={data.duration} />
             </Link>
             <VideoInfo data={data} onRemove={onRemove} /> 
         </div>
