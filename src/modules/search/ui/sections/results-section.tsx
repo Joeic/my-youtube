@@ -1,5 +1,6 @@
 "use client"
 
+import { InfiniteScroll } from "@/components/infinite-scroll";
 import { DEFAULT_LIMIT } from "@/constans";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { VideoGridCard } from "@/modules/videos/ui/components/video-grid-card";
@@ -43,6 +44,11 @@ export const ResultsSection = ({
                     }
                 </div>
             )}
+            <InfiniteScroll 
+                hasNextPage={resultQuery.hasNextPage}
+                isFetchingNextPage={resultQuery.isFetchingNextPage}
+                fetchNextPage={resultQuery.fetchNextPage}
+            />
         </>
     )
 }
