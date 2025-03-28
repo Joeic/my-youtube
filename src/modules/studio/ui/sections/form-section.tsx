@@ -87,8 +87,7 @@ const FormSectionSuspense = ({videoId} : FormSectionProps) => {
         update.mutate(data);
     }
 
-    //TODP: Change when depoly
-    const fullUrl = `${APP_URL || "http://localhost:3000"}/videos/${videoId}`;
+    const fullUrl = `${APP_URL}/videos/${videoId}`;
     const [isCopied, setIsCopied] = useState(false);
 
     const onCopy = async() => {
