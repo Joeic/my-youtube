@@ -15,7 +15,7 @@ export const videosRouter = createTRPCRouter({
         z.object({
             cursor: z.object({
                 id: z.string().uuid(),
-                viwerCount: z.number(),
+                viewCount: z.number(),
             })
             .nullish(),
             limit: z.number().min(1).max(100),
@@ -47,9 +47,9 @@ export const videosRouter = createTRPCRouter({
             and(
                 eq(videos.visibility, "public"),
                 cursor
-                ? or(lt(viewCountSubquery, cursor.viwerCount),
+                ? or(lt(viewCountSubquery, cursor.viewCount),
                  and(
-                    eq(viewCountSubquery, cursor.viwerCount),
+                    eq(viewCountSubquery, cursor.viewCount),
                     lt(videos.id, cursor.id)
                     )
                 )
@@ -63,7 +63,7 @@ export const videosRouter = createTRPCRouter({
         const lastItem = items[items.length - 1];
         const nextCursor = hasMore ? {
             id: lastItem.id,
-            viewCoun: lastItem.viewCount,
+            viewCount: lastItem.viewCount,
         }
         : null;
         return {
