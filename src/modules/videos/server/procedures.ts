@@ -11,6 +11,67 @@ import { UTApi } from "uploadthing/server";
 import { workflow } from "@/lib/workflow";
 
 export const videosRouter = createTRPCRouter({
+    getManyTrending:baseProcedure.input(
+        z.object({
+            cursor: z.object({
+                id: z.string().uuid(),
+                viwerCount: z.number(),
+            })
+            .nullish(),
+            limit: z.number().min(1).max(100),
+        }),
+    ).query(async ({input}) => {
+        const {cursor, limit} = input;
+        const viewCountSubquery = db.$count(
+            videoViews,
+            eq(videoViews.videoId, videos.id),
+        );
+
+        const data = await db
+        .select({
+                    ...getTableColumns(videos),
+                     user: users,
+                     viewCount: viewCountSubquery,
+                     likeCount: db.$count(videoReactions, and(
+                         eq(videoReactions.videoId, videos.id),
+                         eq(videoReactions.type, "like"),
+                     )),
+                     dislikeCount: db.$count(videoReactions, and(
+                         eq(videoReactions.videoId, videos.id),
+                         eq(videoReactions.type, "dislike"),
+                     )),   }
+        )
+        .from(videos)
+        .innerJoin(users, eq(videos.userId, users.id))
+        .where(
+            and(
+                eq(videos.visibility, "public"),
+                cursor
+                ? or(lt(viewCountSubquery, cursor.viwerCount),
+                 and(
+                    eq(viewCountSubquery, cursor.viwerCount),
+                    lt(videos.id, cursor.id)
+                    )
+                )
+             : undefined,
+            )).orderBy(desc(viewCountSubquery), desc(videos.id)).limit(limit + 1);//add 1 limit to check if there more data
+
+        const hasMore = data.length > limit;
+        //remove the last item if there is more data
+        const items = hasMore ? data.slice(0,-1) : data;
+        //set the next cursor to the last item if there is more data
+        const lastItem = items[items.length - 1];
+        const nextCursor = hasMore ? {
+            id: lastItem.id,
+            viewCoun: lastItem.viewCount,
+        }
+        : null;
+        return {
+            items,
+            nextCursor,
+        };
+    }),
+    
     getMany:baseProcedure.input(
             z.object({
                 categoryId: z.string().uuid().nullish(),
