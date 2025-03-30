@@ -4,6 +4,7 @@ import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu,Sideb
 import { FlameIcon, HistoryIcon, HomeIcon, ListVideoIcon, PlaySquareIcon, ThumbsUpIcon } from "lucide-react";
 import Link from "next/link";
 import { SignedIn, useAuth, useClerk } from "@clerk/nextjs";
+import { usePathname } from "next/navigation";
 
 const items =[
     {
@@ -29,7 +30,7 @@ const items =[
 export const PersonalSection = () => {
     const clerk = useClerk();
     const {isSignedIn} = useAuth();
-
+    const pathname = usePathname();
     return(
        <SidebarGroup>
         <SidebarGroupLabel>
@@ -42,7 +43,7 @@ export const PersonalSection = () => {
                             <SidebarMenuButton
                                 tooltip={item.title}
                                 asChild
-                                isActive={false}
+                                isActive={pathname === item.url}
                                 onClick={ (e) => {
                                     console.log("is signed in " + isSignedIn);
                                     console.log("item is " + item);
