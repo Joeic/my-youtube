@@ -6,6 +6,7 @@ import { LikedVideosSection } from "../sections/liked-videos-section"
 import { PlusIcon } from "lucide-react"
 import { PlaylistCreateModel } from "../components/playlist-create-modal"
 import { useState } from "react"
+import { PlaylistsSection } from "../sections/playlists-section"
 
 export const PlaylistsView = () => {
 
@@ -23,17 +24,17 @@ export const PlaylistsView = () => {
                         Collections you have created
                     </p>
                  </div>
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="rounded-full"
+                        onClick={() => setCreateModalOpen(true)}
+                    >
+                        <PlusIcon />
+                    </Button>
             </div>
-            <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full"
-                onClick={() => setCreateModalOpen(true)}
-            >
-                <PlusIcon />
-                
-            </Button>
-          
+            <PlaylistsSection />
         </div>
+        
     )
 }
