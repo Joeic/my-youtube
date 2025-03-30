@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { playlists, users, videoReactions, videos, videoViews } from "@/db/schema";
+import { playlists, playlistVideos, users, videoReactions, videos, videoViews } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import {z} from "zod";
 import {eq, and, or,lt,desc, getTableColumns, inArray, isNotNull} from "drizzle-orm";
@@ -7,6 +7,59 @@ import { TRPCError } from "@trpc/server";
 
 
 export const playlistsRouter = createTRPCRouter({
+    getMany:protectedProcedure.input(
+        z.object({
+            cursor: z.object({
+                id: z.string().uuid(),
+                updatedAt: z.date(),
+            })
+            .nullish(),
+            limit: z.number().min(1).max(100),
+        }),
+    ).query(async ({ctx, input}) => {
+        const {cursor, limit} = input;
+        const { id: userId} = ctx.user;
+
+        const data = await db
+        .select({
+                    ...getTableColumns(playlists),
+                    videoCount: db.$count(
+                        playlistVideos,
+                        eq(playlists.id, playlistVideos.playlistId)
+                    ) ,
+                    user: users,
+                }
+        )
+        .from(playlists)
+        .innerJoin(users, eq(videos.userId, users.id))
+        .where(
+            and(
+                eq(playlists.userId, userId),
+                cursor
+                ? or(lt(playlists.updatedAt, cursor.updatedAt),
+                 and(
+                    eq(playlists.updatedAt, cursor.updatedAt),
+                    lt(playlists.id, cursor.id)
+                    )
+                )
+             : undefined,
+            )).orderBy(desc(playlists.updatedAt), desc(playlists.id)).limit(limit + 1);//add 1 limit to check if there more data
+
+        const hasMore = data.length > limit;
+        //remove the last item if there is more data
+        const items = hasMore ? data.slice(0,-1) : data;
+        //set the next cursor to the last item if there is more data
+        const lastItem = items[items.length - 1];
+        const nextCursor = hasMore ? {
+            id: lastItem.id,
+            updatedAt: lastItem.updatedAt,
+        }
+        : null;
+        return {
+            items,
+            nextCursor,
+        };
+    }),
     create: protectedProcedure
         .input(z.object({name: z.string().min(1)}))
         .mutation(async ({input, ctx}) => {
