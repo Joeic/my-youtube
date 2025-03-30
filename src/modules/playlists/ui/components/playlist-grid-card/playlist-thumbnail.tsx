@@ -28,6 +28,10 @@ export const PlaylistThumbnail =({
                         fill
                     />
 
+                    <div className=" absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100">
+
+                    </div>
+
                 </div>
             </div>
         </div>
