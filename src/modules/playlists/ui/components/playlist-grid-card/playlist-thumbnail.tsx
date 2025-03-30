@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { THUMBNAIL_FALLBACK } from "@/modules/videos/constants";
+import { ListVideoIcon, PlayIcon } from "lucide-react";
 import Image from "next/image";
 
 interface PlaylistThumbnailProps{
@@ -28,11 +29,19 @@ export const PlaylistThumbnail =({
                         fill
                     />
 
-                    <div className=" absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100">
-
+                    <div className=" absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <div className=" flex items-center gap-x-2">
+                            <PlayIcon className="size-4 text-white fill-white"/>
+                            <span className="text-white font-medium"> Play all </span>
+                        </div>
                     </div>
-
                 </div>
+            </div>
+            <div className=" absolute bottom-2 right-2 px-1 py-0.5 rounded text-white text-xs bg-black/80
+                    font-medium flex items-center gap-x-1">
+                <ListVideoIcon className=" size-4"/>
+                {videoCount} videos
+
             </div>
         </div>
     )
