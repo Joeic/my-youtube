@@ -8,6 +8,7 @@ import { VideoRowCard, VideORowCardSkeleton } from "@/modules/videos/ui/componen
 import { trpc } from "@/trpc/client";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
+import { PlaylistGridCard } from "../components/playlist-grid-card";
 
 export const PlaylistsSection = () => {
     return(
@@ -47,7 +48,9 @@ const PlaylistsSectionSuspense = () => {
     return(
         <div>
             <div className="flex flex-col gap-4 gap-y-10 ">
-                {JSON.stringify(playlists)}
+                {playlists.pages.flatMap( (page) => page.items).map( (playlist) => (
+                    <PlaylistGridCard data={playlist} key={playlist.id}/>
+                ))}
             </div>
             <InfiniteScroll 
                 hasNextPage={query.hasNextPage}
