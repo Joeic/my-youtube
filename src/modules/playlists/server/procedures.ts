@@ -6,6 +6,77 @@ import {eq, and, or,lt,desc, getTableColumns, inArray, isNotNull} from "drizzle-
 
 
 export const playlistsRouter = createTRPCRouter({
+    getLiked:protectedProcedure.input(
+        z.object({
+            cursor: z.object({
+                id: z.string().uuid(),
+                likedAt: z.date(),
+            })
+            .nullish(),
+            limit: z.number().min(1).max(100),
+        }),
+    ).query(async ({ctx, input}) => {
+        const {cursor, limit} = input;
+        const { id: userId} = ctx.user;
+
+        const viewerVideoReactions = db.$with("viewer_video_reactions").as(
+            db
+            .select({
+                videoId: videoReactions.videoId,
+                likedAt: videoReactions.updatedAt,
+            })
+            .from(videoReactions)
+            .where(and(
+                eq(videoReactions.userId, userId),
+                eq(videoReactions.type, "like")))
+        )
+
+        const data = await db.with(viewerVideoReactions)
+        .select({
+                    ...getTableColumns(videos),
+                     user: users,
+                     likedAt: viewerVideoReactions.likedAt,
+                     viewCount: db.$count(videoViews, eq(videoViews.videoId, videos.id)),
+                     likeCount: db.$count(videoReactions, and(
+                         eq(videoReactions.videoId, videos.id),
+                         eq(videoReactions.type, "like"),
+                     )),
+                     dislikeCount: db.$count(videoReactions, and(
+                         eq(videoReactions.videoId, videos.id),
+                         eq(videoReactions.type, "dislike"),
+                     )),   }
+        )
+        .from(videos)
+        .innerJoin(users, eq(videos.userId, users.id))
+        .innerJoin(viewerVideoReactions, eq(videos.id, viewerVideoReactions.videoId))
+        .where(
+            and(
+                eq(videos.visibility, "public"),
+                cursor
+                ? or(lt(viewerVideoReactions.likedAt, cursor.likedAt),
+                 and(
+                    eq(viewerVideoReactions.likedAt, cursor.likedAt),
+                    lt(videos.id, cursor.id)
+                    )
+                )
+             : undefined,
+            )).orderBy(desc(viewerVideoReactions.likedAt), desc(videos.id)).limit(limit + 1);//add 1 limit to check if there more data
+
+        const hasMore = data.length > limit;
+        //remove the last item if there is more data
+        const items = hasMore ? data.slice(0,-1) : data;
+        //set the next cursor to the last item if there is more data
+        const lastItem = items[items.length - 1];
+        const nextCursor = hasMore ? {
+            id: lastItem.id,
+            likedAt: lastItem.likedAt,
+        }
+        : null;
+        return {
+            items,
+            nextCursor,
+        };
+    }),
     getHistory:protectedProcedure.input(
             z.object({
                 cursor: z.object({

@@ -26,7 +26,7 @@ const HistoryVideosSectionSkeleton =() => {
                 <VideoGridCardSkeleton key={index} />
                 ))}
             </div>
-            <div className="hidden flex-col gap-4 gap-y-10 md:flex">
+            <div className="hidden flex-col gap-4 md:flex">
                 {Array.from({length: 18}).map( (_,index) => (
                 <VideORowCardSkeleton key={index} size="compact"/>
                 ))}
