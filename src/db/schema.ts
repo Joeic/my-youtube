@@ -167,6 +167,7 @@ export const videoRelations = relations(videos, ({one,many}) => ({
     views:many(videoViews),
     videoReactions:many(videoReactions),
     comments: many(comments),
+    playlistVideos: many(playlistVideos),
 }));
 
 export const comments = pgTable("comments",{
