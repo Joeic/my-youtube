@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 interface PlaylistThumbnailProps{
     title: string;
     videoCount: number;
@@ -12,8 +14,10 @@ export const PlaylistThumbnail =({
     imageUrl,
 }:PlaylistThumbnailProps) => {
     return(
-        <div>
-            thumbail
+        <div className={cn("relative pt-3 group", className)}>
+            <div className="relative">
+                <div className=" absolute -top-3 left-1/2 -translate-x-1/2 w-[97%] overflow-hidden rounded-xl bg-black/20 aspect-video"/>
+            </div>
         </div>
     )
 }
