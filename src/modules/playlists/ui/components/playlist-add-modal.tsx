@@ -1,25 +1,12 @@
 import { ResponsiveModal } from "@/components/responsive-dialog";
+import { DEFAULT_LIMIT } from "@/constans";
 import { trpc } from "@/trpc/client";
 import {z} from "zod";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
- } from "@/components/ui/form";
- import {useForm} from "react-hook-form";
- import { Textarea } from "@/components/ui/textarea";
- import { zodResolver } from "@hookform/resolvers/zod";
- import { toast } from "sonner";
- import { Button } from "@/components/ui/button";
-import { InputOTP } from "@/components/ui/input-otp";
-import { Input } from "@/components/ui/input";
 
 interface PlaylistAddModelProps{
     open: boolean;
     onOpenChange: (open: boolean) => void;
+    videoId: string;
 }
 
 const FormSehema = z.object({
@@ -29,74 +16,22 @@ const FormSehema = z.object({
 export const PlaylistAddModel = ({
     open,
     onOpenChange,
+    videoId,
 }:PlaylistAddModelProps) =>{
-const form = useForm<z.infer<typeof FormSehema>>({
-    resolver: zodResolver(FormSehema),
-    defaultValues:{
-        name: ""
-    }
-})
-    const utils = trpc.useUtils();
-    const Add = trpc.playlists.create.useMutation({
-        onSuccess: () =>{
-            utils.playlists.getMany.invalidate();
-            toast.success("Playlist Addd");
-            form.reset();
-            onOpenChange(false);
-        },
-        onError: () => {
-            toast.error("Something went wrong");
-        }
+    const { data}  = trpc.playlists.getManyForVideo.useInfiniteQuery({limit: DEFAULT_LIMIT, videoId},{
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        enabled: !!videoId && open,
     })
 
-    const onSubmit = (values: z.infer<typeof FormSehema>) => {
-       Add.mutate(values)
-    }
     return(
         <ResponsiveModal
-            title="Add a playlist"
+            title="Add to a playlist"
             open={open}
             onOpenChange={onOpenChange}
         >
-           <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col gap-4"
-            >
-                <FormField
-                    control={form.control}
-                    name="name"
-                    render={({field}) => (
-                        <FormItem>
-                            <FormLabel>
-                                Name
-                            </FormLabel>
-                            <FormControl>
-                                <Input 
-                                    {...field}
-                                    placeholder="My favorite videos"
-                                />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <div className="flex justify-end">
-                    <Button
-                        disabled={Add.isPending}
-                        type="submit"
-                    >
-                        Add
-                    </Button>
-                </div>
-
-                    
-                
-
-            </form>
-            
-           </Form>
+          <div className="flex flex-col gap-2">
+            {JSON.stringify(data)}
+          </div>
         </ResponsiveModal>
     )
 }

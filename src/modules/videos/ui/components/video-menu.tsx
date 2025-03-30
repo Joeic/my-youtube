@@ -32,6 +32,7 @@ export const VideoMenu = ({
     return(
         <>
             <PlaylistAddModel 
+                videoId={videoId}
                 open={isopenPlaylistAddModal}
                 onOpenChange={setIsOpenPlaylistAddModal}
             />
