@@ -9,6 +9,75 @@ import { useId } from "react";
 
 
 export const playlistsRouter = createTRPCRouter({
+    getVideos:protectedProcedure.input(
+        z.object({
+            playlistId: z.string().uuid(),
+            cursor: z.object({
+                id: z.string().uuid(),
+                updatedAt: z.date(),
+            })
+            .nullish(),
+            limit: z.number().min(1).max(100),
+        }),
+    ).query(async ({ctx, input}) => {
+        const {cursor, limit, playlistId} = input;
+        const { id: userId} = ctx.user;
+
+        const VideosFromPlaylist = db.$with("playlist_videos").as(
+            db
+            .select({
+                videoId: playlistVideos.videoId,
+                
+            })
+            .from(playlistVideos)
+            .where(eq(playlistVideos.playlistId, playlistId))
+        )
+
+        const data = await db.with(VideosFromPlaylist)
+        .select({
+                    ...getTableColumns(videos),
+                     user: users,
+                     viewCount: db.$count(videoViews, eq(videoViews.videoId, videos.id)),
+                     likeCount: db.$count(videoReactions, and(
+                         eq(videoReactions.videoId, videos.id),
+                         eq(videoReactions.type, "like"),
+                     )),
+                     dislikeCount: db.$count(videoReactions, and(
+                         eq(videoReactions.videoId, videos.id),
+                         eq(videoReactions.type, "dislike"),
+                     )),   }
+        )
+        .from(videos)
+        .innerJoin(users, eq(videos.userId, users.id))
+        .innerJoin(VideosFromPlaylist, eq(videos.id, VideosFromPlaylist.videoId))
+        .where(
+            and(
+                eq(videos.visibility, "public"),
+                cursor
+                ? or(lt(videos.updatedAt, cursor.updatedAt),
+                 and(
+                    eq(videos.updatedAt, cursor.updatedAt),
+                    lt(videos.id, cursor.id)
+                    )
+                )
+             : undefined,
+            )).orderBy(desc(videos.updatedAt), desc(videos.id)).limit(limit + 1);//add 1 limit to check if there more data
+
+        const hasMore = data.length > limit;
+        //remove the last item if there is more data
+        const items = hasMore ? data.slice(0,-1) : data;
+        //set the next cursor to the last item if there is more data
+        const lastItem = items[items.length - 1];
+        const nextCursor = hasMore ? {
+            id: lastItem.id,
+            updatedAt: lastItem.updatedAt,
+        }
+        : null;
+        return {
+            items,
+            nextCursor,
+        };
+    }),
     removeVideo: protectedProcedure
         .input(z.object({
            playlistId: z.string().uuid(),
