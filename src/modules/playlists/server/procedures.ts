@@ -23,6 +23,17 @@ export const playlistsRouter = createTRPCRouter({
         const {cursor, limit, playlistId} = input;
         const { id: userId} = ctx.user;
 
+        const [existingPlaylist] = await db
+            .select()
+            .from(playlists)
+            .where(and(
+                eq(playlists.id, playlistId),
+                eq(playlists.userId, userId)
+            ));
+        if(!existingPlaylist){
+            throw new TRPCError({code: "NOT_FOUND"});
+        }
+
         const VideosFromPlaylist = db.$with("playlist_videos").as(
             db
             .select({
