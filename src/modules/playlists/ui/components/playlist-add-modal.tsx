@@ -1,9 +1,10 @@
 import { ResponsiveModal } from "@/components/responsive-dialog";
 import { DEFAULT_LIMIT } from "@/constans";
 import { trpc } from "@/trpc/client";
-import { Loader2Icon } from "lucide-react";
+import { Loader2Icon, SquareCheckIcon, SquareIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {z} from "zod";
+import { InfiniteScroll } from "@/components/infinite-scroll";
 
 interface PlaylistAddModelProps{
     open: boolean;
@@ -21,7 +22,7 @@ export const PlaylistAddModel = ({
     videoId,
 }:PlaylistAddModelProps) =>{
     const utils = trpc.useUtils();
-    const { data: playlists, isLoading}  = trpc.playlists.getManyForVideo.useInfiniteQuery({limit: DEFAULT_LIMIT, videoId},{
+    const { data: playlists, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage}  = trpc.playlists.getManyForVideo.useInfiniteQuery({limit: DEFAULT_LIMIT, videoId},{
         getNextPageParam: (lastPage) => lastPage.nextCursor,
         enabled: !!videoId && open,
     })
@@ -49,10 +50,24 @@ export const PlaylistAddModel = ({
            {!isLoading && playlists?.pages.flatMap( (page) => page.items).map( (playlist) => (
                            <Button
                                 key={playlist.id}
+                                variant="ghost"
+                                className=" w-full justify-center px-2 [&_svg]:size-5"
+                                size="lg"
                            >
+                            {playlist.containsVideo ? (
+                                <SquareCheckIcon className="mr-2"/>
+                            ) : <SquareIcon className="mr-2"/>}
                             {playlist.name}
                             </Button>
                            ))}
+            {!isLoading && (
+                <InfiniteScroll 
+                                hasNextPage={hasNextPage}
+                                isFetchingNextPage={isFetchingNextPage}
+                                fetchNextPage={fetchNextPage}
+                                isManual
+                            />
+            )}
           </div>
         </ResponsiveModal>
     )
