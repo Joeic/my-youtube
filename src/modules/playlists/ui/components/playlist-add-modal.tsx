@@ -2,6 +2,7 @@ import { ResponsiveModal } from "@/components/responsive-dialog";
 import { DEFAULT_LIMIT } from "@/constans";
 import { trpc } from "@/trpc/client";
 import { Loader2Icon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {z} from "zod";
 
 interface PlaylistAddModelProps{
@@ -19,16 +20,25 @@ export const PlaylistAddModel = ({
     onOpenChange,
     videoId,
 }:PlaylistAddModelProps) =>{
-    const { data, isLoading}  = trpc.playlists.getManyForVideo.useInfiniteQuery({limit: DEFAULT_LIMIT, videoId},{
+    const utils = trpc.useUtils();
+    const { data: playlists, isLoading}  = trpc.playlists.getManyForVideo.useInfiniteQuery({limit: DEFAULT_LIMIT, videoId},{
         getNextPageParam: (lastPage) => lastPage.nextCursor,
         enabled: !!videoId && open,
     })
+
+    const handleOpenChange = (newOpen: boolean) =>{
+        utils.playlists.getManyForVideo.reset({
+            videoId,
+            limit: DEFAULT_LIMIT,
+        });
+        onOpenChange(open);
+    }
 
     return(
         <ResponsiveModal
             title="Add to a playlist"
             open={open}
-            onOpenChange={onOpenChange}
+            onOpenChange={handleOpenChange}
         >
           <div className="flex flex-col gap-2">
             {isLoading && (
@@ -36,7 +46,13 @@ export const PlaylistAddModel = ({
                     <Loader2Icon className="size-5 animate-spin text-muted-foreground" />
                 </div>
             )}
-            {JSON.stringify(data)}
+           {!isLoading && playlists?.pages.flatMap( (page) => page.items).map( (playlist) => (
+                           <Button
+                                key={playlist.id}
+                           >
+                            {playlist.name}
+                            </Button>
+                           ))}
           </div>
         </ResponsiveModal>
     )
