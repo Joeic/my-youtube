@@ -4,6 +4,8 @@ import { trpc } from "@/trpc/server"
 import { HydrateClient } from "@/trpc/server";
 import { auth } from "@clerk/nextjs/server";
 
+export const dynamic = "force-dynamic";
+
 const Page = async () => {
     void trpc.playlists.getHistory.prefetchInfinite({limit: DEFAULT_LIMIT});
 
