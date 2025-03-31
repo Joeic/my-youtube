@@ -1,5 +1,6 @@
 import { DEFAULT_LIMIT } from "@/constans"
 import { HistoryView } from "@/modules/playlists/ui/views/history-view";
+import { VideosView } from "@/modules/playlists/ui/views/videos-view";
 import { trpc } from "@/trpc/server"
 import { HydrateClient } from "@/trpc/server";
 import { auth } from "@clerk/nextjs/server";
@@ -7,16 +8,16 @@ import { auth } from "@clerk/nextjs/server";
 export const dynamic = "force-dynamic";
 
 interface PageProps{
-    params: Promise<{playlistId: string}>;
+    params: { playlistId: string };
 }
 
 const Page = async ({params}: PageProps) => {
-    const {playlistId} = await params;
+    const {playlistId} = params;
     void trpc.playlists.getVideos.prefetchInfinite({playlistId, limit: DEFAULT_LIMIT});
 
     return(
         <HydrateClient>
-            <HistoryView />
+            <VideosView  playlistId={playlistId}  />
         </HydrateClient>
     )
 }
