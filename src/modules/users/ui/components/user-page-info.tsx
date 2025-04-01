@@ -4,6 +4,8 @@ import { useClerk } from "@clerk/nextjs";
 import { useAuth } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { SubscriptionButton } from "@/modules/subscriptions/ui/components/subscription-button";
+import { UseSubscription } from "@/modules/subscriptions/hooks/use-subscriptions";
 
 interface UserPageInfoProps{
     user: UserGetOneOutput;
@@ -11,7 +13,12 @@ interface UserPageInfoProps{
 
 export const UserPageInfo = ({user}:UserPageInfoProps) =>{
     const clerk = useClerk();
-    const {userId} = useAuth();
+    const {userId, isLoaded} = useAuth();
+
+      const {isPending, onClick} = UseSubscription({
+            userId: user.id,
+            isSubscribed: user.viwerSubscribed,
+        })
 
     return(
         <div className="py-6">
@@ -41,7 +48,7 @@ export const UserPageInfo = ({user}:UserPageInfoProps) =>{
                             </div>
                     </div>
                 </div>
-                {userId === user.clerkId &&(
+                {userId === user.clerkId ? (
                     <Button
                        variant="secondary"
                        asChild
@@ -53,6 +60,13 @@ export const UserPageInfo = ({user}:UserPageInfoProps) =>{
                             Go to studio
                         </Link>
                     </Button>
+                ): (
+                    <SubscriptionButton 
+                    onClick={onClick}
+                    disaled={isPending || !isLoaded}
+                    isSubscribed={user.viwerSubscribed}
+                    className=" w-full mt-3"
+                />
                 )}
             </div>
         </div>
