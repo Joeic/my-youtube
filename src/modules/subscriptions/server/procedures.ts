@@ -11,7 +11,7 @@ export const subscriptionsRouter = createTRPCRouter({
     getMany:protectedProcedure.input(
                 z.object({
                     cursor: z.object({
-                        creatorid: z.string().uuid(),
+                        creatorId: z.string().uuid(),
                         updatedAt: z.date(),
                     })
                     .nullish(),
@@ -39,7 +39,7 @@ export const subscriptionsRouter = createTRPCRouter({
                         ? or(lt(subscriptions.updatedAt, cursor.updatedAt),
                          and(
                             eq(subscriptions.updatedAt, cursor.updatedAt),
-                            lt(subscriptions.creatorId, cursor.creatorid)
+                            lt(subscriptions.creatorId, cursor.creatorId)
                             )
                         )
                      : undefined,
