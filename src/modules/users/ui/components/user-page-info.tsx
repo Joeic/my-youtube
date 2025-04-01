@@ -2,6 +2,8 @@ import { UserAvatar } from "@/components/user-avatar";
 import { UserGetOneOutput } from "../../types";
 import { useClerk } from "@clerk/nextjs";
 import { useAuth } from "@clerk/clerk-react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface UserPageInfoProps{
     user: UserGetOneOutput;
@@ -37,10 +39,21 @@ export const UserPageInfo = ({user}:UserPageInfoProps) =>{
                                     {user.videoCount} subscribers
                                 </span>
                             </div>
-                            
-                        
                     </div>
                 </div>
+                {userId === user.clerkId &&(
+                    <Button
+                       variant="secondary"
+                       asChild
+                       className=" w-full mt-3 rounded-full"
+                    >
+                         <Link
+                            href="/studio"
+                        >
+                            Go to studio
+                        </Link>
+                    </Button>
+                )}
             </div>
         </div>
     )
