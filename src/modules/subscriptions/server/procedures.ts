@@ -43,7 +43,7 @@ export const subscriptionsRouter = createTRPCRouter({
                             )
                         )
                      : undefined,
-                    )).orderBy(desc(videos.updatedAt), desc(videos.id)).limit(limit + 1);//add 1 limit to check if there more data
+                    )).orderBy(desc(subscriptions.updatedAt), desc(subscriptions.creatorId)).limit(limit + 1);//add 1 limit to check if there more data
         
                 const hasMore = data.length > limit;
                 //remove the last item if there is more data

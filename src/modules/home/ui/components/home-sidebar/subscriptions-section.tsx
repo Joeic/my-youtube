@@ -21,7 +21,7 @@ export const SubscriptionsSection = () => {
     return(
        <SidebarGroup>
         <SidebarGroupLabel>
-            You
+            Subscriptions
         </SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>

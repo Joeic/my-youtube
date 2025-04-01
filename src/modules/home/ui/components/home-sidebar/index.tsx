@@ -2,6 +2,8 @@ import { Sidebar,SidebarContent } from "@/components/ui/sidebar"
 import { MainSection } from "./main-section"
 import {PersonalSection} from "./personal-section"
 import { Separator } from "@/components/ui/sidebar"
+import { SignedIn } from "@clerk/nextjs"
+import { SubscriptionsSection } from "./subscriptions-section"
 
 
 export const HomeSideBar = () => {
@@ -11,6 +13,13 @@ export const HomeSideBar = () => {
                 <MainSection />
                 <Separator />
                 <PersonalSection />
+                <SignedIn>
+                    <>
+                        <Separator />
+                        <SubscriptionsSection 
+                        />
+                    </>
+                </SignedIn>
             </SidebarContent>
 
         </Sidebar>
