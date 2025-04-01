@@ -26,6 +26,20 @@ export const UserPageInfo = ({user}:UserPageInfoProps) =>{
                             }
                         }}
                     />
+                    <div className="flex-1 min-w-0">
+                        <h1 className=" text-xl font-bold ">{user.name}</h1>
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <span>
+                                    {user.subscriberCount} subscribers
+                                </span>
+                                <span> &bull;</span>
+                                <span>
+                                    {user.videoCount} subscribers
+                                </span>
+                            </div>
+                            
+                        
+                    </div>
                 </div>
             </div>
         </div>
