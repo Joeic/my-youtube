@@ -82,6 +82,38 @@ export const UserPageInfo = ({user}:UserPageInfoProps) =>{
                             }
                         }}
                 />
+                <div className="flex-1 min-w-0">
+                        <h1 className=" text-4xl font-bold ">{user.name}</h1>
+                        <div className="flex items-center gap-1 text-sm text-muted-foreground mt-1">
+                            <span>
+                                {user.subscriberCount} subscribers
+                            </span>
+                            <span> &bull;</span>
+                            <span>
+                                {user.videoCount} subscribers
+                            </span>
+                        </div>  
+                        {userId === user.clerkId ? (
+                            <Button
+                                variant="secondary"
+                                asChild
+                                className="mt-3 rounded-full"
+                            >
+                                <Link
+                                    href="/studio"
+                                >
+                                    Go to studio
+                                </Link>
+                            </Button>
+                        ): (
+                            <SubscriptionButton 
+                                onClick={onClick}
+                                disaled={isPending || !isLoaded}
+                                isSubscribed={user.viwerSubscribed}
+                                className="mt-3"
+                            />
+                        )} 
+                </div>
             </div>
         </div>
     )
