@@ -3,20 +3,20 @@ import { UploadDropzone } from "../../../../lib/uploadthing";
 import { trpc } from "@/trpc/client";
 
 interface BannerUploadModelProps{
-    UserId: string;
+    userId: string;
     open: boolean;
     onOpenChange: (open: boolean) => void;
 }
 
 export const BannerUploadModel = ({
-    UserId,
+    userId,
     open,
     onOpenChange,
 }:BannerUploadModelProps) =>{
     const utils = trpc.useUtils();
 
     const onUploadComplete = () => {
-        utils.users.getOne.invalidate({ id:UserId});
+        utils.users.getOne.invalidate({ id:userId});
         onOpenChange(false);
     }
     return(
