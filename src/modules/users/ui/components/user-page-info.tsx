@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { SubscriptionButton } from "@/modules/subscriptions/ui/components/subscription-button";
 import { UseSubscription } from "@/modules/subscriptions/hooks/use-subscriptions";
+import { cn } from "@/lib/utils";
 
 interface UserPageInfoProps{
     user: UserGetOneOutput;
@@ -68,6 +69,19 @@ export const UserPageInfo = ({user}:UserPageInfoProps) =>{
                     className=" w-full mt-3"
                 />
                 )}
+            </div>
+            <div className=" hidden items-start gap-4 md:flex">
+                <UserAvatar 
+                        size="lg"
+                        imageUrl={user.imageUrl}
+                        name={user.name}
+                        className={cn(userId === user.clerkId && "cursor-pointer hover:opacity-80 transition-opacity duration-300")}
+                        onClick={() => {
+                            if(user.clerkId === userId){
+                                clerk.openUserProfile();
+                            }
+                        }}
+                />
             </div>
         </div>
     )
