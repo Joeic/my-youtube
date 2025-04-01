@@ -1,25 +1,25 @@
 import { DEFAULT_LIMIT } from "@/constans";
+import { UserView } from "@/modules/users/ui/views/user-view";
 import { VideoView } from "@/modules/videos/ui/views/video-view";
-import { trpc } from "@/trpc/server";
+import { HydrateClient, trpc } from "@/trpc/server";
 
 export const dynamic = 'force-dynamic';
 interface PageProps{
     params: Promise<{
-        videoId: string;
+        userId: string;
     }>;
 }
 
 
 const Page = async ({ params }:PageProps) => {
-    const {videoId} = await params;
+    const {userId} = await params;
 
-    void trpc.videos.getOne.prefetch({id: videoId});
-    void trpc.comments.getMany.prefetchInfinite({videoId, limit: DEFAULT_LIMIT});
-    void trpc.suggestions.getMany.prefetchInfinite({videoId, limit: DEFAULT_LIMIT});
+    void trpc.users.getOne.prefetch({id: userId});
+    
     return (
-        <div>
-           UserPage
-        </div>
+        <HydrateClient>
+           <UserView userId={userId}/>
+        </HydrateClient>
     );
 };
 
