@@ -81,7 +81,7 @@ export const UserPageInfo = ({user}:UserPageInfoProps) =>{
                        asChild
                        className=" w-full mt-3 rounded-full"
                     >
-                         <Link
+                         <Link prefetch 
                             href="/studio"
                         >
                             Go to studio
@@ -125,7 +125,7 @@ export const UserPageInfo = ({user}:UserPageInfoProps) =>{
                                 asChild
                                 className="mt-3 rounded-full"
                             >
-                                <Link
+                                <Link prefetch 
                                     href="/studio"
                                 >
                                     Go to studio
