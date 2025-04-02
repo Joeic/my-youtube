@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { toast } from "sonner";
-import { SubscriptionItem } from "../components/subscription-item";
+import { SubscriptionItem, SubscriptionItemSkeleton } from "../components/subscription-item";
 
 export const SubscriptionsSection = () => {
     return(
@@ -23,19 +23,11 @@ export const SubscriptionsSection = () => {
 
 const SubscriptionsSectionSkeleton =() => {
     return(
-        <div>
-            <div className="flex flex-col gap-4 gap-y-10 md:hidden">
-                {Array.from({length: 18}).map( (_,index) => (
-                <VideoGridCardSkeleton key={index} />
-                ))}
-            </div>
-            <div className="hidden flex-col gap-4 md:flex">
-                {Array.from({length: 18}).map( (_,index) => (
-                <VideORowCardSkeleton key={index} size="compact"/>
-                ))}
-            </div>
-        </div>
-       
+        <div className="flex flex-col gap-4">
+            {Array.from({length: 18}).map( (_,index) => (
+            <SubscriptionItemSkeleton key={index} />
+            ))}
+        </div>                
     )
 }
 
@@ -64,7 +56,7 @@ const SubscriptionsSectionSuspense = () => {
 
     return(
         <div>
-            <div className="flex flex-col gap-4 gap-y-10">
+            <div className="flex flex-col gap-4 ">
                 {subscriptions.pages.flatMap( (page) => page.items).map( (subscription) => (
                     <Link
                         key = {subscription.creatorId} 
