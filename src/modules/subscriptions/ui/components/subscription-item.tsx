@@ -1,4 +1,5 @@
 import { UserAvatar } from "@/components/user-avatar";
+import { SubscriptionButton } from "./subscription-button";
 
 interface SubscriptionItemProps{
     name: string;
@@ -32,6 +33,15 @@ export const SubscriptionItem =({
                             {subscriberCount} subscribers
                         </p>
                     </div>
+                    <SubscriptionButton 
+                        size="sm"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onUnsubscribe();
+                        }}
+                        disaled={disabled}
+                        isSubscribed
+                    />
 
                 </div>
 
