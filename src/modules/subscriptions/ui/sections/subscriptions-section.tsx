@@ -9,6 +9,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { toast } from "sonner";
+import { SubscriptionItem } from "../components/subscription-item";
 
 export const SubscriptionsSection = () => {
     return(
@@ -69,7 +70,15 @@ const SubscriptionsSectionSuspense = () => {
                         key = {subscription.creatorId} 
                         href={`/users/${subscription.user.id}`}
                     >
-                        {JSON.stringify(subscription)}
+                        <SubscriptionItem
+                            name={subscription.user.name}
+                            imageUrl={subscription.user.imageUrl}
+                            subscriberCount={subscription.user.subscriberCount}
+                            onUnsubscribe={() => {
+                                unsubscribe.mutate({userId: subscription.creatorId})
+                            }}
+                            disabled={unsubscribe.isPending}
+                        /> 
                     </Link>
                 ))}
             </div>
