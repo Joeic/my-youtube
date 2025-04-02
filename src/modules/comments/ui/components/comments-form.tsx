@@ -30,6 +30,7 @@ export const CommentForm = ({
     const clerk = useClerk();
     const utils = trpc.useUtils();
     const schema = commentsInsertSchema.omit({ userId: true });
+    
     const create = trpc.comments.create.useMutation({
         onSuccess: () => {
             utils.comments.getMany.invalidate({videoId});
@@ -53,7 +54,8 @@ export const CommentForm = ({
         value: "",
       },
     });
-
+    const value = form.watch("value");
+    const isEmpty = !value || value.trim() === "";
     const handleSubmit = (values: z.infer<typeof schema>) => {
         create.mutate(values);
     };
@@ -99,13 +101,19 @@ export const CommentForm = ({
                
             
                 <div className="justify-end gap-2 mt-2 flex">
-                    {onCancel && (
-                        <Button variant="ghost" type="button" onClick={handleCancel}>
-                            Cancel
-                        </Button>
+                    {(
+                        <Button
+                        variant="secondary" // 灰色样式
+                        size="sm"
+                        type="button"
+                        onClick={handleCancel}
+                      >
+                        Cancel
+                      </Button>
                     )}
                     <Button
-                        disabled={create.isPending}
+                        className="bg-blue-600 hover:bg-blue-700 text-white"
+                        disabled={create.isPending || isEmpty}
                         type="submit"
                         size='sm'
                     >
