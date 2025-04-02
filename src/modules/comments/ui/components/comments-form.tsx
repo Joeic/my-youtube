@@ -4,12 +4,11 @@ import { UserAvatar } from "@/components/user-avatar";
 import { useUser, useClerk } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import {TypeOf, z} from "zod";
+import { z} from "zod";
 import {trpc} from "@/trpc/client";
 import { commentsInsertSchema } from "@/db/schema";
 import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
 import { toast } from "sonner";
-import { error } from "console";
 
 interface CommentFormProps{
     videoId: string;

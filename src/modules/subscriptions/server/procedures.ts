@@ -1,10 +1,8 @@
 import { db } from "@/db";
-import { subscriptions, users, videos, videoViews} from "@/db/schema";
+import { subscriptions, users,} from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { TRPCError } from "@trpc/server";
-import { sub } from "date-fns";
 import { eq, and, getTableColumns, or, lt, desc} from "drizzle-orm";
-import { abort } from "process";
 import { z } from "zod";
 
 export const subscriptionsRouter = createTRPCRouter({

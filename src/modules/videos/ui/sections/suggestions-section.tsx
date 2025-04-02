@@ -3,7 +3,6 @@
 import { DEFAULT_LIMIT } from "@/constans"
 import { trpc } from "@/trpc/client"
 import { VideoRowCard, VideORowCardSkeleton } from "../components/video-row-card";
-import { videos } from "@/db/schema";
 import { VideoGridCard } from "../components/video-grid-card";
 import { InfiniteScroll } from "@/components/infinite-scroll";
 import { Suspense } from "react";

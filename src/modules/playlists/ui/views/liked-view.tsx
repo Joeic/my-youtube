@@ -1,4 +1,3 @@
-import { HistoryVideosSection } from "../sections/history-videos-section"
 import { LikedVideosSection } from "../sections/liked-videos-section"
 
 export const LikedView = () => {

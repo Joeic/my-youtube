@@ -1,5 +1,4 @@
 import { clsx, type ClassValue } from "clsx"
-import { char } from "drizzle-orm/mysql-core";
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {

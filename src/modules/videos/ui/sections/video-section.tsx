@@ -8,7 +8,6 @@ import { VideoPlayer, VideoPlayerSkeleton } from "../components/video-player";
 import { VideoBanner } from "../components/video-banner";
 import { VideoTopRow, VideoTopRowSkeleton } from "../components/video-top-row";
 import { useAuth } from "@clerk/nextjs";
-import { Skeleton } from "@/components/ui/skeleton";
 interface VideoSectionProps{
     videoId: string;
 }

@@ -1,6 +1,5 @@
 import { DEFAULT_LIMIT } from "@/constans";
 import { UserView } from "@/modules/users/ui/views/user-view";
-import { VideoView } from "@/modules/videos/ui/views/video-view";
 import { HydrateClient, trpc } from "@/trpc/server";
 
 export const dynamic = 'force-dynamic';

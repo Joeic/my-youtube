@@ -2,7 +2,6 @@
 
 import MuxPlayer from "@mux/mux-player-react";
 import { THUMBNAIL_FALLBACK } from "../../constants";
-import { Skeleton } from "@/components/ui/skeleton";
 
 
 interface VideoPlayerProps{

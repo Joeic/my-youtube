@@ -2,9 +2,6 @@
 
 import { InfiniteScroll } from "@/components/infinite-scroll";
 import { DEFAULT_LIMIT } from "@/constans";
-import { playlists } from "@/db/schema";
-import { VideoGridCard, VideoGridCardSkeleton } from "@/modules/videos/ui/components/video-grid-card";
-import { VideoRowCard, VideORowCardSkeleton } from "@/modules/videos/ui/components/video-row-card";
 import { trpc } from "@/trpc/client";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";

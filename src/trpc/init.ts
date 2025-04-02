@@ -3,7 +3,6 @@ import { users } from '@/db/schema';
 import { eq } from 'drizzle-orm'
 import { auth } from '@clerk/nextjs/server';
 import { initTRPC, TRPCError } from '@trpc/server';
-import exp from 'constants';
 import { cache } from 'react';
 import superjson from "superjson";
 import { ratelimit } from '@/lib/ratelimit';

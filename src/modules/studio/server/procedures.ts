@@ -3,9 +3,7 @@ import { comments, users, videoReactions, videos, videoViews } from "@/db/schema
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import {z} from "zod";
 import {eq, and, or,lt,desc, getTableColumns} from "drizzle-orm";
-import { comment, Input } from "postcss";
 import { TRPCError } from "@trpc/server";
-import { Users } from "lucide-react";
 
 export const studioRouter = createTRPCRouter({
 

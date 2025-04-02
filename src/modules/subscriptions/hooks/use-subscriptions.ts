@@ -3,7 +3,6 @@
 import {toast} from "sonner";
 import { useClerk } from "@clerk/nextjs";
 import {trpc} from "@/trpc/client";
-import error from "next/error";
 
 interface UseSubscriptionProps{
     userId: string;

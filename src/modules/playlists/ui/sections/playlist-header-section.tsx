@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { toast } from "sonner";
-import { util } from "zod";
 
 interface PlaylistHeaderSectionProps {
     playlistId: string;

@@ -1,12 +1,11 @@
 "use client";
 
 import { SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu,SidebarMenuButton, SidebarMenuItem} from "@/components/ui/sidebar";
-import { FlameIcon, HistoryIcon, HomeIcon, ListIcon, ListVideoIcon, PlaySquareIcon, ThumbsUpIcon } from "lucide-react";
+import {  ListIcon} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { trpc } from "@/trpc/client";
 import { DEFAULT_LIMIT } from "@/constans";
-import { subscriptions } from "@/db/schema";
 import { UserAvatar } from "@/components/user-avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 

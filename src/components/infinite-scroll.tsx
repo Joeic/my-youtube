@@ -1,6 +1,5 @@
 import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
 import { useEffect } from "react";
-import { threadId } from "worker_threads";
 import { Button } from "./ui/button";
 
 interface InfiniteScrollProps {

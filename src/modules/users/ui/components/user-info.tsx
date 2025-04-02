@@ -5,7 +5,6 @@ import{
     TooltipTrigger,
     TooltipContent,
 }  from "@/components/ui/tooltip";
-import { Variable } from "lucide-react";
 
 const userInfoVariants = cva("flex items-center gap-1",{
     variants:{

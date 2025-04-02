@@ -2,10 +2,9 @@ import { db } from "@/db";
 import { playlists, playlistVideos, users, videoReactions, videos, videoViews } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import {z} from "zod";
-import {eq, and, or,lt,desc, getTableColumns, inArray, isNotNull, sql} from "drizzle-orm";
+import {eq, and, or,lt,desc, getTableColumns, sql} from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
-import { boolean } from "drizzle-orm/mysql-core";
-import { useId } from "react";
+;
 
 
 export const playlistsRouter = createTRPCRouter({

@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { subscriptions, users, videos } from "@/db/schema";
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import {z} from "zod";
-import {eq, and, or,lt,desc, getTableColumns, inArray, isNotNull} from "drizzle-orm";
+import {eq, getTableColumns, inArray, isNotNull} from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 

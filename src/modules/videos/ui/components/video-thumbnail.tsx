@@ -1,7 +1,6 @@
 import { formatDuration } from "@/lib/utils";
 import Image from "next/image";
 import { THUMBNAIL_FALLBACK } from "../../constants";
-import { exportTraceState } from "next/dist/trace";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface VideoThumbnailProps {

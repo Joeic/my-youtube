@@ -2,8 +2,6 @@
 
 import { InfiniteScroll } from "@/components/infinite-scroll";
 import { DEFAULT_LIMIT } from "@/constans";
-import { VideoGridCard, VideoGridCardSkeleton } from "@/modules/videos/ui/components/video-grid-card";
-import { VideoRowCard, VideORowCardSkeleton } from "@/modules/videos/ui/components/video-row-card";
 import { trpc } from "@/trpc/client";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -48,7 +46,7 @@ const SubscriptionsSectionSuspense = () => {
                 
             },
     
-            onError: (error) => {
+            onError: () => {
                 toast.error("Something went wrong");
                
             },

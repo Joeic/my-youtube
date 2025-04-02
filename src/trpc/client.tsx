@@ -8,7 +8,6 @@ import { useState } from 'react';
 import { makeQueryClient } from './query-client';
 import type { AppRouter } from './routers/_app';
 import superjson  from 'superjson';
-import { Head } from 'react-day-picker';
 import { APP_URL } from '@/constans';
 
 export const trpc = createTRPCReact<AppRouter>();

@@ -10,11 +10,9 @@ import {
     FormMessage,
  } from "@/components/ui/form";
  import {useForm} from "react-hook-form";
- import { Textarea } from "@/components/ui/textarea";
  import { zodResolver } from "@hookform/resolvers/zod";
  import { toast } from "sonner";
  import { Button } from "@/components/ui/button";
-import { InputOTP } from "@/components/ui/input-otp";
 import { Input } from "@/components/ui/input";
 
 interface PlaylistCreateModelProps{

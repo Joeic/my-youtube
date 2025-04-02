@@ -1,6 +1,6 @@
 "use client"
 
-import { Sidebar,SidebarContent, SidebarGroup, SidebarMenu, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
+import { Sidebar,SidebarContent, SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
 import Link from "next/link"
 import { LogOutIcon, VideoIcon } from "lucide-react"
 import { usePathname } from "next/navigation"

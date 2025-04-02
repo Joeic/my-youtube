@@ -5,7 +5,6 @@ import Link from "next/link";
 import { UserAvatar } from "@/components/user-avatar";
 import { UserInfo } from "@/modules/users/ui/components/user-info";
 import { VideoMenu } from "./video-menu";
-import exp from "constants";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface VideoInfoProps {
@@ -38,7 +37,7 @@ export const VideoInfo = ({
         
   const compactDatte = useMemo( () => {
         return formatDistanceToNow(data.createdAt, {addSuffix: true});
-    },[data.likeCount]);
+    },[data.createdAt]);
 
     
     return(

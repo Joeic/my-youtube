@@ -3,7 +3,6 @@ import { DEFAULT_LIMIT } from "@/constans";
 import { trpc } from "@/trpc/client";
 import { Loader2Icon, SquareCheckIcon, SquareIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {z} from "zod";
 import { InfiniteScroll } from "@/components/infinite-scroll";
 import { toast } from "sonner";
 
@@ -13,9 +12,7 @@ interface PlaylistAddModelProps{
     videoId: string;
 }
 
-const FormSehema = z.object({
-    name: z.string().min(1),
-})
+
 
 export const PlaylistAddModel = ({
     open,
